@@ -1,0 +1,52 @@
+# Build output directories
+bin/
+obj/
+
+# Visual Studio / Rider / VS Code files
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Rider IDE files
+.idea/
+
+# Configurações locais de debug
+Properties/launchSettings.json
+
+# Configurações específicas de ambiente local
+appsettings.Development.json
+
+# Arquivos de log
+*.log
+
+# Arquivos temporários
+*.tmp
+*.temp
+
+# Arquivos gerados
+*.pdb
+*.dll
+*.deps.json
+*.runtimeconfig.json
+*.cache
+
+# Pacotes NuGet
+*.nupkg
+packages/
+
+# Diretórios de publicação
+publish/
+
+# Arquivos do sistema operacional
+.DS_Store
+Thumbs.db
+
+# Docker
+**/docker-compose.override.yml
+**/docker-compose.override.*.yml
+
+# Outros
+*.vsix
+*.docstates
