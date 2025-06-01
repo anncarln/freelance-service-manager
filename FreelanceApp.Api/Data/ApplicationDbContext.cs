@@ -12,5 +12,6 @@ namespace FreelanceApp.Api.Data
         public DbSet<Specialty> Specialties { get; set; }
         public DbSet<Professional> Professionals { get; set; }
         public DbSet<Appointment> Appointments { get; set; }
+        public DbSet<User> Users { get; set; }
     }
 }

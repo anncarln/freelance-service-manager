@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 using FreelanceApp.Api.Data;
 using FreelanceApp.Api.Dtos;
 using FreelanceApp.Api.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace FreelanceApp.Api.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class AppointmentController(ApplicationDbContext context) : ControllerBase
@@ -46,6 +48,28 @@ namespace FreelanceApp.Api.Controllers
         [HttpPost]
         public async Task<ActionResult> Create(CreateAppointmentDto dto)
         {
+            if (dto.ScheduledAt < DateTime.Now)
+            {
+                return BadRequest("You cannot scheduled an appointent in the past.");    
+            }
+
+            var professionalExists = await _context.Professionals.AnyAsync(p => p.Id == dto.ProfessionalId);
+
+            if (!professionalExists)
+            {
+                return BadRequest("Professional not found.");
+            }
+
+            var conflictingAppointment = await _context.Appointments
+                .AnyAsync(a =>
+                a.ProfessionalId == dto.ProfessionalId &&
+                a.ScheduledAt == dto.ScheduledAt);
+
+            if (conflictingAppointment)
+            {
+                return Conflict("This professional already has an appoiintment at the selected time.");
+            }
+
             var appointment = new Appointment
             {
                 ScheduledAt = dto.ScheduledAt,

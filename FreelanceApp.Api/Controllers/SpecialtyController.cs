@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using FreelanceApp.Api.Data;
 using FreelanceApp.Api.Dtos;
 using FreelanceApp.Api.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,7 @@ using Microsoft.Extensions.FileProviders;
 
 namespace FreelanceApp.Api.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class SpecialtyController(ApplicationDbContext context) : ControllerBase
