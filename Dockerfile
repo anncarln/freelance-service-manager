@@ -1,17 +1,17 @@
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS base
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /app
-EXPOSE 80
 
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS build
-WORKDIR /src
+COPY *.sln ./
+COPY FreelanceApp.Api/FreelanceApp.Api.csproj ./FreelanceApp.Api/
 
 COPY . .
 
-RUN dotnet restore
+RUN dotnet restore FreelanceApp.sln
 RUN dotnet publish -c Release -o /app/publish
 
-FROM base AS final
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 WORKDIR /app
 COPY --from=build /app/publish .
+EXPOSE 80
 
 ENTRYPOINT ["dotnet", "FreelanceApp.Api.dll"]
