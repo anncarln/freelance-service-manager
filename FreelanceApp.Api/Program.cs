@@ -51,9 +51,15 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+var credential = new ChainedTokenCredential(
+    new AzureCliCredential(),
+    new ManagedIdentityCredential(),
+    new EnvironmentCredential()
+);
+
 builder.Configuration.AddAzureKeyVault(
     new Uri($"https://freelancevault123.vault.azure.net/"),
-    new DefaultAzureCredential()
+    credential
 );
 
 builder.Services.AddAuthentication("Bearer")
