@@ -14,5 +14,16 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
 
+  app:
+    image: anncarln/freelance-service-manager:latest
+    container_name: freelance_app
+    restart: always
+    depends_on:
+      - postgres
+    ports:
+      - "8080:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=FreelanceDb;Username=postgres;Password=postgres
 volumes:
   pgdata:
